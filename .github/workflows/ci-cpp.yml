@@ -1,6 +1,6 @@
 # workflow that builds and tests the cpp-devcontainer
 
-name: linux dev image
+name: ci-cpp
 on:
   schedule:
     - cron: "25 16 * * *"
@@ -15,7 +15,7 @@ env:
 
 jobs:
   build:
-    name: Build & push docker image
+    name: Build cpp devcontainer
     runs-on: ubuntu-latest
     permissions:
       contents: "read"
@@ -29,6 +29,4 @@ jobs:
         run: >
           docker build
           --file ${{ env.IMAGE_FILE }}
-          --tag ${{ env.IMAGE_TAG }}
           .
-
