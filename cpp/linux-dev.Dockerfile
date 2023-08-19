@@ -33,7 +33,7 @@ SHELL ["/usr/bin/pwsh", "-Command", "$ErrorActionPreference = 'Stop';"]
 RUN cmake --version
 
 # --- Install *specified* version of gcc from https://packages.ubuntu.com ---
-ARG GCC_VERSION
+ARG GCC_VERSION=13
 RUN if($env:GCC_VERSION -eq $null){Write-Error "build argument GCC_VERSION missing"; exit 1;}
 RUN apt-get --yes --fix-missing install "g++-$env:GCC_VERSION" "gcc-$env:GCC_VERSION"
 # add new symlinks for the installed versions (vcpkg default triples use g++)
@@ -41,7 +41,7 @@ RUN update-alternatives --install /usr/bin/gcc gcc "/usr/bin/gcc-$env:GCC_VERSIO
 RUN update-alternatives --install /usr/bin/g++ g++ "/usr/bin/g++-$env:GCC_VERSION" 20
 
 # --- Install *specified* version of llvm, clang, etc. from https://apt.llvm.org/ ---
-ARG CLANG_VERSION
+ARG CLANG_VERSION=16
 RUN if($env:CLANG_VERSION -eq $null){Write-Error "build argument CLANG_VERSION missing"; exit 1;}
 RUN $v = $env:CLANG_VERSION; \
   $n = $env:UBUNTU_CODE_NAME; \
