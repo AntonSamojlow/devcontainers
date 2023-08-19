@@ -1,6 +1,7 @@
-FROM mcr.microsoft.com/powershell:lts-ubuntu-22.04
-ARG UBUNTU_CODE_NAME=jammy
+FROM mcr.microsoft.com/powershell:lts-ubuntu-22.04 as base
+ENV UBUNTU_CODE_NAME=jammy
 
+FROM base as devcontainer
 # shortcut shell to pwsh calling 'apt-get' with some flags (in case of security warnings, consider adding '--allow-unauthenticated')
 SHELL ["/usr/bin/pwsh", "-Command", "$ErrorActionPreference = 'Stop';", "apt-get", "--yes", "--fix-missing"]
 ARG DEBIAN_FRONTEND=noninteractive

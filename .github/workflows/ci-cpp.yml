@@ -1,0 +1,46 @@
+# workflow that builds and tests the cpp-devcontainer
+
+name: linux dev image
+on:
+  workflow_dispatch:
+    inputs:
+      version-tag:
+        description: "Version tag"
+        required: true
+        default: "latest"
+        type: string
+      gcc-version:
+        description: "Gcc version"
+        required: true
+        type: string
+        default: "12"
+      clang-version:
+        description: "Clang version (incl. llvm and clang tooling)"
+        required: true
+        type: string
+        default: "16"
+
+env:
+  IMAGE_FILE: "linux-dev.Dockerfile"
+
+jobs:
+  build:
+    name: Build & push docker image
+    runs-on: ubuntu-latest
+    permissions:
+      contents: "read"
+      id-token: "write"
+    steps:
+      - uses: "actions/checkout@v3"
+
+      - name: Docker build
+        shell: pwsh
+        working-directory: cpp
+        run: >
+          docker build
+          --file ${{ env.IMAGE_FILE }}
+          --tag ${{ env.IMAGE_TAG }}
+          --build-arg CLANG_VERSION=${{ inputs.clang-version }}
+          --build-arg GCC_VERSION=${{ inputs.gcc-version }}
+          .
+
