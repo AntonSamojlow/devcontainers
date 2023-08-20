@@ -23,6 +23,14 @@ jobs:
     steps:
       - uses: "actions/checkout@v3"
 
+      - name: Docker build (stage test)
+        shell: pwsh
+        working-directory: cpp
+        run: >
+          docker build
+          --file ${{ env.IMAGE_FILE }}
+          --target test
+          .
       - name: Docker build
         shell: pwsh
         working-directory: cpp

@@ -52,3 +52,18 @@ RUN update-alternatives --install /usr/bin/clang-format clang-format "/usr/bin/c
 LABEL clang-version=$CLANG_VERSION gcc-version=$GCC_VERSION
 
 RUN clang --version
+
+FROM devcontainer as test
+
+COPY ./test /test
+WORKDIR /test
+
+RUN cmake --preset clang
+RUN cmake --build ./build/clang
+RUN ./build/clang/test
+
+RUN cmake --preset gcc
+RUN cmake --build ./build/gcc
+RUN ./build/gcc/test
+
+FROM devcontainer as final
