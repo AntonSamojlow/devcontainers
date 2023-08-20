@@ -1,6 +1,6 @@
 # workflow that builds the linux-dev image and uploads it to some container registry
 
-name: linux dev image
+name: Publish image
 on:
   workflow_dispatch:
     inputs:
@@ -9,6 +9,7 @@ on:
         required: true
         type: choice
         options:
+        # we require images ti be organized under ./{repository}/{imagename}.Dockerfile
           - "cpp/linux-dev"
       tag:
         description: "Tag for the image"
@@ -18,8 +19,7 @@ on:
 
 env:
   GAR_LOCATION: "europe-west3"
-  GAR_PROJECT: "arena-385320" # todo: generate separate project
-  GAR_REPOSITORY: "devcontainers"
+  GAR_PROJECT: "devcontainers-396515"
   GCLOUD_SERVICE_ACCOUNT: "github-workflows"
   GCLOUD_WORKLOAD_ID_PROVIDER: "projects/1070825474922/locations/global/workloadIdentityPools/github-id-pool/providers/github-id-pool-provider"
 
@@ -34,7 +34,7 @@ jobs:
       - uses: "actions/checkout@v3"
 
       - name: Save image tag
-        run: echo "IMAGE_AND_TAG=${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.GAR_PROJECT}}/${{ env.GAR_REPOSITORY }}/${{ inputs.image }}:${{ inputs.tag }}" >> $GITHUB_ENV
+        run: echo "IMAGE_AND_TAG=${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.GAR_PROJECT}}/${{ inputs.image }}:${{ inputs.tag }}" >> $GITHUB_ENV
 
       - id: "auth"
         name: Authenticate to Google Cloud
@@ -55,7 +55,6 @@ jobs:
 
       - name: Docker build
         shell: pwsh
-        working-directory: .devcontainer
         run: >
           docker build
           --file ${{ inputs.image }}.Dockerfile
