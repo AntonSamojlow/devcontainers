@@ -1,5 +1,6 @@
 FROM ubuntu:23.04 as base
 ENV UBUNTU_CODE_NAME=lunar
+ENV LAST_LTS=22.04
 
 FROM base as devcontainer
 ARG DEBIAN_FRONTEND=noninteractive
@@ -16,7 +17,16 @@ RUN apt-get -y --fix-missing install mono-complete
 # for gcov style coverage:
 RUN apt-get -y --fix-missing install gcovr
 # for installing from other apt repos:
-RUN apt-get -y --fix-missing install gpg wget software-properties-common
+RUN apt-get -y --fix-missing install gpg wget software-properties-common apt-transport-https
+
+# --- Install *latest* version of PWSH from Microsoft (for cross-platform scripting) ---
+RUN wget -q "https://packages.microsoft.com/config/ubuntu/$LAST_LTS/packages-microsoft-prod.deb"
+RUN dpkg -i packages-microsoft-prod.deb
+RUN rm packages-microsoft-prod.deb
+RUN apt-get update
+RUN apt-get -y --fix-missing install powershell
+
+RUN pwsh --version
 
 # --- Install *latest* version of CMake from https://apt.kitware.com/ ---
 RUN wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | tee /usr/share/keyrings/kitware-archive-keyring.gpg > /dev/null
