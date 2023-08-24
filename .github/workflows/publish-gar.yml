@@ -1,6 +1,6 @@
 # workflow that builds the linux-dev image and uploads it to some container registry
 
-name: Publish image to various Artifact Registries
+name: Publish image
 on:
   workflow_dispatch:
     inputs:
