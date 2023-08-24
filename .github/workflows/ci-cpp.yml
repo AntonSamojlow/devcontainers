@@ -11,7 +11,7 @@ on:
       - main
 
 env:
-  IMAGE_FILE: "linux-dev.Dockerfile"
+  IMAGE_FILE: "linux.Dockerfile"
 
 jobs:
   build:
