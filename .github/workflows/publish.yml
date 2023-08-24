@@ -86,12 +86,6 @@ jobs:
     steps:
       - uses: "actions/checkout@v3"
 
-      - name: Save image tag
-        shell: pwsh
-        run: |
-          $tag = "${{ inputs.image }}" -replace '/', '-'
-          echo "IMAGE_AND_TAG=docker.io/${{ secrets.DOCKER_HUB_USERNAME }}/devcontainers:$tag" >> $GITHUB_ENV
-
       - name: Log in to Docker Hub
         uses: docker/login-action@v2
         with:
@@ -103,9 +97,9 @@ jobs:
         run: >
           docker build
           --file ${{ inputs.image }}.Dockerfile
-          --tag ${{ env.IMAGE_AND_TAG }}
+          --tag docker.io/${{ secrets.DOCKER_HUB_USERNAME }}/devcontainers:$("${{ inputs.image }}" -replace '/', '-')
           (Split-Path ${{ inputs.image }}.Dockerfile -Parent)
 
       - name: Docker push
         shell: pwsh
-        run: docker push ${{ env.IMAGE_AND_TAG }}
+        run: docker push docker.io/${{ secrets.DOCKER_HUB_USERNAME }}/devcontainers:$("${{ inputs.image }}" -replace '/', '-')
