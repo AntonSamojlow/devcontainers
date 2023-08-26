@@ -60,6 +60,8 @@ RUN update-alternatives --install /usr/bin/clang clang "/usr/bin/clang-$CLANG_VE
 RUN update-alternatives --install /usr/bin/clang++ clang++ "/usr/bin/clang++-$CLANG_VERSION" 20
 RUN update-alternatives --install /usr/bin/clang-tidy clang-tidy "/usr/bin/clang-tidy-$CLANG_VERSION" 20
 RUN update-alternatives --install /usr/bin/clang-format clang-format "/usr/bin/clang-format-$CLANG_VERSION" 20
+RUN update-alternatives --install /usr/bin/llvm-profdata llvm-profdata "/usr/bin/llvm-profdata-$CLANG_VERSION" 20
+RUN update-alternatives --install /usr/bin/llvm-cov llvm-cov "/usr/bin/llvm-cov-$CLANG_VERSION" 20
 
 LABEL clang-version=$CLANG_VERSION gcc-version=$GCC_VERSION
 
