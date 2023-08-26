@@ -15,7 +15,9 @@ RUN apt-get -y --fix-missing install default-jre
 # for Nuget access of vcpkg binary caching:
 RUN apt-get -y --fix-missing install mono-complete
 # for gcov style coverage:
-RUN apt-get -y --fix-missing install gcovr
+# RUN apt-get -y --fix-missing install gcovr
+RUN apt-get -y --fix-missing install python3-pip
+RUN pip install gcovr==6.0.0 --break-system-packages
 # for installing from other apt repos:
 RUN apt-get -y --fix-missing install gpg wget software-properties-common apt-transport-https
 
