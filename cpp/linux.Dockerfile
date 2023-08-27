@@ -41,11 +41,14 @@ RUN apt-get -y --fix-missing install cmake
 RUN cmake --version
 
 # --- Install *specified* version of gcc from https://packages.ubuntu.com  ---
+RUN apt -y remove gcc g++
+
 ARG GCC_VERSION=13
 RUN apt-get -y --fix-missing install "g++-$GCC_VERSION" "gcc-$GCC_VERSION"
 
 RUN update-alternatives --install /usr/bin/gcc gcc "/usr/bin/gcc-$GCC_VERSION" 20
 RUN update-alternatives --install /usr/bin/g++ g++ "/usr/bin/g++-$GCC_VERSION" 20
+RUN update-alternatives --install /usr/bin/gcov gcov "/usr/bin/gcov-$GCC_VERSION" 20
 
 RUN g++ --version
 
