@@ -21,7 +21,7 @@ RUN pip install gcovr==6.0.0 --break-system-packages
 # for installing from other apt repos:
 RUN apt-get -y --fix-missing install gpg wget software-properties-common apt-transport-https
 
-# --- Install *latest* version of PWSH from Microsoft (for cross-platform scripting) ---
+# --- Install *latest* version of pwsh from Microsoft (for cross-platform scripting) ---
 RUN wget -q "https://packages.microsoft.com/config/ubuntu/$LAST_LTS/packages-microsoft-prod.deb"
 RUN dpkg -i packages-microsoft-prod.deb
 RUN rm packages-microsoft-prod.deb
