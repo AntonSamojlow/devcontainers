@@ -53,7 +53,7 @@ RUN update-alternatives --install /usr/bin/gcov gcov "/usr/bin/gcov-$GCC_VERSION
 RUN g++ --version
 
 # --- Install *specified* version of llvm, clang, etc. from https://apt.llvm.org/ ---
-ARG CLANG_VERSION=17
+ARG CLANG_VERSION=16
 RUN wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add -
 RUN add-apt-repository "deb http://apt.llvm.org/$UBUNTU_CODE_NAME/ llvm-toolchain-$UBUNTU_CODE_NAME-$CLANG_VERSION main"
 RUN apt-get update
