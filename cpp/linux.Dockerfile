@@ -60,7 +60,7 @@ RUN g++ --version
 # --- Install *specified* version of llvm, clang, etc. from https://packages.ubuntu.com  ---
 # RUN apt -y remove clang clang++
 
-ARG CLANG_VERSION=19
+ARG CLANG_VERSION=18
 RUN apt-get update && apt-get -y --fix-missing install llvm-$CLANG_VERSION clang-$CLANG_VERSION clang-tidy-$CLANG_VERSION clang-format-$CLANG_VERSION lldb-$CLANG_VERSION lld-$CLANG_VERSION libclang-$CLANG_VERSION-dev
 
 RUN update-alternatives --install /usr/bin/clang clang "/usr/bin/clang-$CLANG_VERSION" 20
